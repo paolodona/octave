@@ -5,9 +5,9 @@ y = d.data(:,2); # price
 m = length(x);
 
 X = [ones(m,1), x]
-theta = ((pinv(X'*X))*X'*y)'
+theta = ((pinv(X'*X))*X'*y)
 
-# theta = [100,0.2];
+# theta = [100;0.2];
 
 # plot regression line
 # function plotRegression(theta)
@@ -28,4 +28,4 @@ hold off;
 # predict price
 
 area = 2500;
-price = sum([1, area] .* theta)
+price = [1, area] * theta
