@@ -20,12 +20,14 @@ theta = ((pinv(X'*X))*X'*y)
 
 plot(x, y, 'rx');
 hold on;
-plotRegression(theta);
-grid;
-hold off;
+plotRegression(x, theta);
 
 
 # predict price
 
 area = 2500;
 price = [1, area] * theta
+plot(area, price, 'bx', 'MarkerSize', 10);
+
+grid;
+hold off;
