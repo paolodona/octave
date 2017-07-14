@@ -1,6 +1,6 @@
 clear ; close all; clc %% Initialization
 
-data = load('and.txt');
+data = load('not.txt');
 X = data(:, [1, 2]); y = data(:, 3);
 
 % Add Polynomial Features
