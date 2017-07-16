@@ -62,30 +62,22 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+# feed forward to compute H
 a1 = [ones(m,1) X];
 a2 = [ones(m,1) sigmoid(a1*Theta1')];
 a3 = sigmoid(a2*Theta2');
 H = a3;
 
+# comupte cost
 Y = repmat(1:num_labels, m, 1) == y; # instead of 1 col with K value, have a Y matrix with one column per class - so we can vectorize
 all_thetas = [ Theta1(:,2:size(Theta1,2))(:) ; Theta2(:,2:size(Theta2,2))(:) ]; # for regulariztion - excludes bias terms
 J = sum( (sum( -Y .* log(H) - (1-Y) .* log(1-H)) / m) ) + (lambda / (2*m) * sum( all_thetas .^ 2));
 
-# h = sigmoid(X * theta);
-# for k=1:num_labels
-#    h = a3(:,k)
-#  J += (sum( -y .* log(h) - (1-y) .* log(1-h)) / m) + (lambda / (2*m) * sum(theta(2:length(theta)) .^ 2));
-# endfor
-# J = (sum( -y .* log(h) - (1-y) .* log(1-h)) / m) + (lambda / (2*m) * sum(theta(2:length(theta)) .^ 2));
-#
 # grad = sum( (h-y) .* X ) / m;
 # reg = theta .* lambda ./ m;
 # grad = grad .+ reg';
 # grad(1) = grad(1) - reg(1); # dont regularize theta(1)
 
-
-
-% -------------------------------------------------------------
 
 % =========================================================================
 
