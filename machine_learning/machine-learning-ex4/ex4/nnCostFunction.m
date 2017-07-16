@@ -64,8 +64,10 @@ Theta2_grad = zeros(size(Theta2));
 
 # feed forward to compute H
 a1 = [ones(m,1) X];
-a2 = [ones(m,1) sigmoid(a1*Theta1')];
-a3 = sigmoid(a2*Theta2');
+z2 = a1*Theta1';
+a2 = [ones(m,1) sigmoid(z2)];
+z3 = a2*Theta2';
+a3 = sigmoid(z3);
 H = a3;
 
 # comupte cost
@@ -73,12 +75,15 @@ Y = repmat(1:num_labels, m, 1) == y; # instead of 1 col with K value, have a Y m
 all_thetas = [ Theta1(:,2:size(Theta1,2))(:) ; Theta2(:,2:size(Theta2,2))(:) ]; # for regulariztion - excludes bias terms
 J = sum( (sum( -Y .* log(H) - (1-Y) .* log(1-H)) / m) ) + (lambda / (2*m) * sum( all_thetas .^ 2));
 
-# grad = sum( (h-y) .* X ) / m;
-# reg = theta .* lambda ./ m;
-# grad = grad .+ reg';
-# grad(1) = grad(1) - reg(1); # dont regularize theta(1)
+# back-propagation - delta matrixes
+delta3 = H - Y;
+delta2 = (delta3 * Theta2(:, 2:size(Theta2,2))) .* sigmoidGradient(z2);
 
+DELTA2 = delta3'*a2; ; # accumulator
+DELTA1 = delta2'*a1; ; # accumulator
 
+Theta2_grad = DELTA2 ./ m;
+Theta1_grad = DELTA1 ./ m;
 % =========================================================================
 
 % Unroll gradients
