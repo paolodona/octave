@@ -82,8 +82,11 @@ delta2 = (delta3 * Theta2(:, 2:size(Theta2,2))) .* sigmoidGradient(z2);
 DELTA2 = delta3'*a2; ; # accumulator
 DELTA1 = delta2'*a1; ; # accumulator
 
-Theta2_grad = DELTA2 ./ m;
-Theta1_grad = DELTA1 ./ m;
+reg2 = (lambda / m) .* Theta2; reg2(:,1) = 0; # regularize gradient, but not theta0
+reg1 = (lambda / m) .* Theta1; reg1(:,1) = 0; # regularize gradient, but not theta0
+Theta2_grad = (DELTA2 ./ m) + reg2;
+Theta1_grad = (DELTA1 ./ m) + reg1;
+
 % =========================================================================
 
 % Unroll gradients
